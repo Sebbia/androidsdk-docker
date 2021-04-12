@@ -24,6 +24,6 @@ RUN set -xe \
 
 ENV PATH ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${PATH}
 
-ENV ANDROID_TOOLS build-tools;30.0.3 platforms;android-30
+ENV ANDROID_TOOLS build-tools;30.0.2 platforms;android-29
 
 RUN for TOOL in ${ANDROID_TOOLS}; do yes | sdkmanager "$TOOL"; done
