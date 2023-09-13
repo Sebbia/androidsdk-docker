@@ -2,8 +2,8 @@ name: Docker Image CI
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - master
 
 env:
   DOCKER_USER: ${{secrets.DOCKER_USER}}
