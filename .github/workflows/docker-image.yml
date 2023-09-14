@@ -14,25 +14,68 @@ jobs:
   update_readme:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Update Docker Hub description
-      uses: meeDamian/sync-readme@v1.0.6
-      with:
-        user: ${{secrets.DOCKER_USER}}
-        pass: ${{secrets.DOCKER_PASSWORD}}
-        slug: sebbia/androidsdk-docker
-        readme: ./README.md
-        description: true
+      - uses: actions/checkout@v2
+      - name: Update Docker Hub description
+        uses: meeDamian/sync-readme@v1.0.6
+        with:
+          user: ${{secrets.DOCKER_USER}}
+          pass: ${{secrets.DOCKER_PASSWORD}}
+          slug: sebbia/androidsdk-docker
+          readme: ./README.md
+          description: true
+
+  build-30_0_2:
+    runs-on: ubuntu-latest
+    env:
+      TAG: "30.0.2"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: |
+          docker build . --file androidsdk/${TAG}/Dockerfile --tag ${IMAGE_NAME}:${TAG}
+      - name: Push image to Docker Hub
+        run: |
+          docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
+          docker push ${IMAGE_NAME}:${TAG}
+
+  build-30_0_3:
+    runs-on: ubuntu-latest
+    env:
+      TAG: "30.0.3"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: |
+          docker build . --file androidsdk/${TAG}/Dockerfile --tag ${IMAGE_NAME}:${TAG}
+      - name: Push image to Docker Hub
+        run: |
+          docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
+          docker push ${IMAGE_NAME}:${TAG}
 
   build-30_0_3-java11:
     runs-on: ubuntu-latest
+    env:
+      TAG: "30.0.3-java11"
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: |
-        docker build . --file androidsdk/30.0.3-java11/Dockerfile --tag ${IMAGE_NAME}:30.0.3-java11
-    - name: Push image to Docker Hub
-      run: |
-        docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
-        docker push ${IMAGE_NAME}:30.0.3-java11
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: |
+          docker build . --file androidsdk/${TAG}/Dockerfile --tag ${IMAGE_NAME}:${TAG}
+      - name: Push image to Docker Hub
+        run: |
+          docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
+          docker push ${IMAGE_NAME}:${TAG}
 
+  build-flutter-30_0_3:
+    runs-on: ubuntu-latest
+    env:
+      TAG: "30.0.3-flutter"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: |
+          docker build . --file fluttersdk/${TAG}/Dockerfile --tag ${IMAGE_NAME}:${TAG}
+      - name: Push image to Docker Hub
+        run: |
+          docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
+          docker push ${IMAGE_NAME}:${TAG}
